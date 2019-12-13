@@ -14,7 +14,7 @@ curl -sS -k -b gitlab-cookies.txt -c gitlab-cookies.txt "${GITURL}/users/sign_in
 	--data "user[login]=${GITUSER}&user[password]=${GITROOTPWD}" \
 	--data-urlencode "authenticity_token=${csrf_token}"  -o /dev/null
 
-# 3. send curl GET request to personal access token page to get auth token
+# 3. send curl GET request to gitlab runners page to get registration token
 body_header=$(curl -sS -k -H 'user-agent: curl' -b gitlab-cookies.txt "${GITURL}/admin/runners" -o gitlab-header.txt)
 reg_token=$(cat gitlab-header.txt | perl -ne 'print "$1\n" if /code id="registration_token">(.+?)</' | sed -n 1p)
 echo $reg_token
