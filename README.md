@@ -9,6 +9,12 @@ gitlab cicd demo
 #download perl
 https://docs.gitlab.com/ee/administration/troubleshooting/kubernetes_cheat_sheet.html#installation-of-minimal-gitlab-config-via-minukube-on-macos
 
+
+## clone this repo & cd into it
+```
+git clone https://github.com/MxNxPx/gitlab-cicd-demo gitlab-cicd-demo && cd $_
+```
+
 ## setup minikube
 ```
 sudo minikube start --vm-driver=none --kubernetes-version v1.15.3
@@ -108,6 +114,8 @@ docker run --rm -t -i -v /srv/gitlab-runner/config:/etc/gitlab-runner gitlab/git
 docker restart gitlab-runner
 ```
 
+## STILL NEED TO DO...
+## import a repo to gitlab, make a change, and watch it run thru cicd
 
 
 
