@@ -78,11 +78,13 @@ read -p "Paste registration token: " GITRUNREG
 ## launch gitlab runner as local docker container
 ```
 docker run \
+--privileged \
 --detach \
 --name gitlab-runner \
 --restart always \
 -v /srv/gitlab-runner/config:/etc/gitlab-runner \
 -v /var/run/docker.sock:/var/run/docker.sock \
+-v /cache \
 gitlab/gitlab-runner:latest
 ```
 
@@ -95,8 +97,9 @@ sudo mv /tmp/ca.crt /srv/gitlab-runner/config/certs
 
 ## register the docker gitlab runner
 ```
-docker run --rm -t -i -v /srv/gitlab-runner/config:/etc/gitlab-runner gitlab/gitlab-runner register \
+docker run -v /srv/gitlab-runner/config:/etc/gitlab-runner --rm -t -i gitlab/gitlab-runner register \
 --docker-privileged \
+--cache-dir /cache \
 --non-interactive \
 --executor "docker" \
 --docker-image alpine:latest \
@@ -106,7 +109,8 @@ docker run --rm -t -i -v /srv/gitlab-runner/config:/etc/gitlab-runner gitlab/git
 --description "docker-runner" \
 --tag-list "docker,local-runner" \
 --run-untagged \
---locked="false"
+--locked="false" \
+--docker-volumes '/var/run/docker.sock:/var/run/docker.sock'
 ```
 
 ## restart the docker gitlab runner to make it active with the updated registered config
