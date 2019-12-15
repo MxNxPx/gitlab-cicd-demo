@@ -1,0 +1,32 @@
+image: docker:19.03.1
+
+variables:
+  DOCKER_DRIVER: "overlay2"
+  DOCKER_TLS_CERTDIR: ""
+
+services:
+  - name: docker:19.03.1-dind
+    command: 
+      - --insecure-registry=registry.192.168.200.211.nip.io
+
+before_script:
+  - docker version
+
+stages:
+  - build
+  - test
+
+include:
+  - template: Container-Scanning.gitlab-ci.yml
+
+build:
+  image: docker:latest
+  stage: build
+  variables:
+    IMAGE: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG:$CI_COMMIT_SHA
+  script:
+  - env
+  - docker info
+  - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+  - docker build -t $IMAGE .
+  - docker push $IMAGE
