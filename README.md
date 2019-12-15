@@ -99,18 +99,18 @@ sudo mv /tmp/ca.crt /srv/gitlab-runner/config/certs
 ```
 docker run -v /srv/gitlab-runner/config:/etc/gitlab-runner --rm -t -i gitlab/gitlab-runner register \
 --docker-privileged \
---cache-dir /cache \
 --non-interactive \
 --executor "docker" \
---docker-image alpine:latest \
+--docker-image "docker:19.03.1" \
 --url "${GITURL}" \
 --tls-ca-file "/etc/gitlab-runner/certs/ca.crt -n" \
 --registration-token "${GITRUNREG}" \
 --description "docker-runner" \
 --tag-list "docker,local-runner" \
 --run-untagged \
---locked="false" \
---docker-volumes '/var/run/docker.sock:/var/run/docker.sock'
+--docker-wait-for-services-timeout 180 \
+--docker-volumes "/certs/client" \
+--locked="false"
 ```
 
 ## restart the docker gitlab runner to make it active with the updated registered config

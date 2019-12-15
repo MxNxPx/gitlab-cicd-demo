@@ -1,0 +1,40 @@
+# Read more about this feature here: https://docs.gitlab.com/ee/user/application_security/container_scanning/
+
+variables:
+  CS_MAJOR_VERSION: 2
+
+container_scanning:
+  stage: test
+  image:
+    name: registry.gitlab.com/gitlab-org/security-products/analyzers/klar:$CS_MAJOR_VERSION
+    entrypoint: []
+  variables:
+    # By default, use the latest clair vulnerabilities database, however, allow it to be overridden here with a specific image
+    # to enable container scanning to run offline, or to provide a consistent list of vulnerabilities for integration testing purposes
+    CLAIR_DB_IMAGE_TAG: "latest"
+    CLAIR_DB_IMAGE: "arminc/clair-db:$CLAIR_DB_IMAGE_TAG"
+    # Override the GIT_STRATEGY variable in your `.gitlab-ci.yml` file and set it to `fetch` if you want to provide a `clair-whitelist.yml`
+    # file. See https://docs.gitlab.com/ee/user/application_security/container_scanning/index.html#overriding-the-container-scanning-template
+    # for details
+    GIT_STRATEGY: none
+  allow_failure: true
+  services:
+    - name: $CLAIR_DB_IMAGE
+      alias: clair-vulnerabilities-db
+  script:
+    # the kubernetes executor currently ignores the Docker image entrypoint value, so the start.sh script must
+    # be explicitly executed here in order for this to work with both the kubernetes and docker executors
+    # see this issue for more details https://gitlab.com/gitlab-org/gitlab-runner/issues/4125
+    - /container-scanner/start.sh
+  artifacts:
+    reports:
+      container_scanning: gl-container-scanning-report.json
+  dependencies: []
+  only:
+    refs:
+      - branches
+    variables:
+      - $GITLAB_FEATURES =~ /\bcontainer_scanning\b/
+  except:
+    variables:
+      - $CONTAINER_SCANNING_DISABLED
