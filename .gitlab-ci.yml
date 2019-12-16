@@ -3,11 +3,11 @@ image: docker:19.03.1
 variables:
   DOCKER_DRIVER: "overlay2"
   DOCKER_TLS_CERTDIR: ""
+  DOCKER_DAEMON_OPTIONS: "--insecure-registry=${CI_REGISTRY}"
 
 services:
   - name: docker:19.03.1-dind
-    command: 
-      - --insecure-registry=registry.192.168.200.211.nip.io
+    entrypoint: [ "sh", "-c", "dockerd-entrypoint.sh $DOCKER_DAEMON_OPTIONS" ]
 
 before_script:
   - docker version
