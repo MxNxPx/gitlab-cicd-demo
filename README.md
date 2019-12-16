@@ -108,7 +108,7 @@ docker run -v /srv/gitlab-runner/config:/etc/gitlab-runner --rm -t -i gitlab/git
 --description "docker-runner" \
 --tag-list "docker,local-runner" \
 --run-untagged \
---docker-wait-for-services-timeout 180 \
+--docker-wait-for-services-timeout 60 \
 --docker-volumes "/certs/client" \
 --locked="false"
 ```
