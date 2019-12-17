@@ -4,17 +4,17 @@ variables:
   DOCKER_DRIVER: "overlay2"
   DOCKER_TLS_CERTDIR: ""
   DOCKER_DAEMON_OPTIONS: "--insecure-registry=${CI_REGISTRY}"
+  MINIKUBE_USER: "gitlabcicd"
+  IMAGE: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG:$CI_COMMIT_SHA
 
 services:
   - name: docker:19.03.1-dind
-    entrypoint: [ "sh", "-c", "dockerd-entrypoint.sh $DOCKER_DAEMON_OPTIONS" ]
-
-before_script:
-  - docker version
+    entrypoint: [ "sh", "-c", "dockerd-entrypoint.sh ${DOCKER_DAEMON_OPTIONS}" ]
 
 stages:
   - build
   - test
+  - deploy
 
 include:
   - template: Container-Scanning.gitlab-ci.yml
@@ -22,11 +22,29 @@ include:
 build:
   image: docker:latest
   stage: build
-  variables:
-    IMAGE: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG:$CI_COMMIT_SHA
   script:
   - env
+  - docker version
   - docker info
   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
   - docker build -t $IMAGE .
   - docker push $IMAGE
+
+deploy:
+  stage: deploy
+  environment:
+    name: Dev
+  image: dtzar/helm-kubectl:latest
+  script:
+    - kubectl config set-cluster minikube --server="$MINIKUBE_SERVER" --certificate-authority="$MINIKUBE_CA"
+    - kubectl config set-credentials "${MINIKUBE_USER}" --token="$MINIKUBE_USER_TOKEN"
+    - kubectl config set-context minikube --cluster=minikube --user="${MINIKUBE_USER}"
+    - kubectl config use-context minikube
+    - kubectl config get-contexts
+    - kubectl config view
+    - kubectl -n default get all -o wide
+    - kubectl version
+    - echo "${IMAGE}"
+    - sed -i "s%<IMAGE>%${IMAGE}%g" spec.yaml
+    - cat spec.yaml
+    - kubectl apply -f spec.yaml
