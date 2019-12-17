@@ -139,7 +139,11 @@ MINIKUBE_CA
 ```
 
 ## STILL NEED TO DO...
-## import a repo to gitlab, make a change, and watch it run thru cicd
+## directions to import this repo to gitlab
+## trust insecure gitlab registry on minikube
+## integrate scanning and testing
+## automate some of the manual stuff
+## explain making change and pipeline work
 
 
 
