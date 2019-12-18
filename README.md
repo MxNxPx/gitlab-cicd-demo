@@ -51,8 +51,25 @@ watch kubectl get po -n gitlab
 #ctrl+c to exit
 ```
 
-## create personal access token for api usage
+## trust gitlab registry certs for docker/minikube && restart
+```
+echo -n | openssl s_client -connect ${GITLABREGISTRY}:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > ${GITLABREGISTRY}.crt
+sudo mkdir -v /usr/local/share/ca-certificates/minikube/
+sudo cp -pv ${GITLABREGISTRY}.crt /usr/local/share/ca-certificates/minikube/
+sudo update-ca-certificates
+sudo minikube stop
+sudo systemctl stop docker
+docker ps 
+sudo systemctl start docker
+sudo minikube start --vm-driver=none --kubernetes-version v1.15.3
+```
 
+## make sure it all restarts healthy
+```
+watch kubectl get po --all-namespaces
+#ctrl+c to exit
+#if any errors are still happening after 5-10 mins, do a "kubectl delete po name-of-the-pod -n namespace-name" for each pod with issues
+```
 
 ## get & set vars for gitlab url & root password for UI
 ```
