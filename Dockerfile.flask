@@ -5,7 +5,9 @@ FROM python:3.6-alpine
 #FROM python:3.4.3
 
 # take some responsibility for this container
-MAINTAINER Aarno Aukia <aarno.aukia@vshn.ch>
+#MAINTAINER Aarno Aukia <aarno.aukia@vshn.ch>
+LABEL name="flask-hello-world"
+LABEL version="1.0"
 
 # directory to install the app inside the container
 WORKDIR /usr/src/app
