@@ -3,6 +3,10 @@
 # https://hub.docker.com/_/golang
 FROM golang:1.13 as builder
 
+# Labels
+LABEL name="go-hello-world"
+LABEL version="1.0"
+
 # Create and change to the app directory.
 WORKDIR /app
 
