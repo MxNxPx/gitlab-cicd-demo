@@ -3,6 +3,8 @@
 
 ## pre-reqs
 ```
+#RAM: about 8GB free
+#DISK: about 20GB free
 #download helm3
 #download kubectl
 #download minikube
