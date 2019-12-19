@@ -1,5 +1,5 @@
 # gitlab-cicd-demo
-gitlab cicd demo
+
 
 ## pre-reqs
 ```
@@ -8,7 +8,6 @@ gitlab cicd demo
 #download minikube
 #download docker desktop
 #download perl
-https://docs.gitlab.com/ee/administration/troubleshooting/kubernetes_cheat_sheet.html#installation-of-minimal-gitlab-config-via-minukube-on-macos
 ```
 
 ## clone this repo & cd into it
@@ -161,6 +160,12 @@ MINIKUBE_CA
 ## directions to import this repo to gitlab
 ## automate some of the manual stuff
 ## explain making change and pipeline work
+
+
+
+## Useful links
+https://docs.gitlab.com/ee/administration/troubleshooting/kubernetes_cheat_sheet.html#installation-of-minimal-gitlab-config-via-minukube-on-macos
+
 
 
 
