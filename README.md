@@ -73,7 +73,7 @@ sudo minikube start --vm-driver=none --kubernetes-version v1.15.3
 watch kubectl get po --all-namespaces
 #ctrl+c to exit
 #if any errors are still happening after 5-10 mins, run this command
-#kubectl get pods | egrep -v "Running|Complete" | awk '{print $1}' | xargs kubectl delete pod
+#kubectl -n gitlab get pods | egrep -v "Running|Completed" | awk '{print $1}' | xargs kubectl -n gitlab delete pod
 ```
 
 ## get & set vars for gitlab url & root password for UI
