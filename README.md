@@ -147,7 +147,7 @@ kubectl create sa gitlabcicd
 kubectl create clusterrolebinding deployer --clusterrole cluster-admin --serviceaccount default:gitlabcicd
 KUBE_DEPLOY_SECRET_NAME=`kubectl get sa gitlabcicd -o jsonpath='{.secrets[0].name}'` && echo $KUBE_DEPLOY_SECRET_NAME
 CLUSTER_NAME=minikube
-MINIKUBE_APISERVER=$(kubectl config view -o jsonpath="{.clusters[?(@.name=='$CLUSTER_NAME')].cluster.server}") && echo $APISERVER
+MINIKUBE_APISERVER=$(kubectl config view -o jsonpath="{.clusters[?(@.name=='$CLUSTER_NAME')].cluster.server}") && echo $MINIKUBE_APISERVER
 MINIKUBE_USER_TOKEN=$(kubectl get secret $KUBE_DEPLOY_SECRET_NAME -o jsonpath='{.data.token}'|base64 --decode) && echo $MINIKUBE_USER_TOKEN
 MINIKUBE_CA=$(kubectl config view -o jsonpath="{.clusters[?(@.name=='$CLUSTER_NAME')].cluster.certificate-authority}") && cat $MINIKUBE_CA
 ```
