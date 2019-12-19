@@ -166,9 +166,6 @@ open ${GITURL}/admin/runners &
 
 ## USING VALUES FROM ABOVE, CREATE GITLAB CICD variables
 ```
-open ${GITURL}/admin/runners &
-#on linux
-#google-chrome ${GITURL} &
 #Under Project Settings > CICD > Variables
 MINIKUBE_APISERVER
 MINIKUBE_USER_TOKEN
