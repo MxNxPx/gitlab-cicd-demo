@@ -6,20 +6,23 @@ variables:
   DOCKER_DAEMON_OPTIONS: "--insecure-registry=${CI_REGISTRY}"
   MINIKUBE_USER: "gitlabcicd"
   IMAGE: $CI_REGISTRY_IMAGE/$CI_COMMIT_REF_SLUG:$CI_COMMIT_SHA
+  #CONTAINER_SCANNING_DISABLED: "true"
 
 services:
   - name: docker:19.03.1-dind
     entrypoint: [ "sh", "-c", "dockerd-entrypoint.sh ${DOCKER_DAEMON_OPTIONS}" ]
-
+    command:
+      - "--log-level=debug"
+      - "-insecure-tls"
+      
 stages:
   - build
   - test
   - deploy
 
-include:
-  - template: Container-Scanning.gitlab-ci.yml
 
-build:
+
+build_dockerfile:
   image: docker:latest
   stage: build
   script:
@@ -29,6 +32,32 @@ build:
   - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
   - docker build -t $IMAGE .
   - docker push $IMAGE
+
+
+
+container_scanning:
+  stage: test
+  image: docker:latest
+  allow_failure: true
+  script:
+    - apk add --no-cache --update curl wget grep sed git
+    - wget -q https://github.com/aquasecurity/trivy/releases/download/v0.3.1/trivy_0.3.1_Linux-64bit.tar.gz
+    - tar zxf trivy_0.3.1_Linux-64bit.tar.gz
+    - mv trivy /usr/local/bin
+    - chmod +x /usr/local/bin/trivy
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+    - docker pull $IMAGE
+    - docker image ls
+    - /usr/local/bin/trivy --no-progress --exit-code 1 --severity CRITICAL -debug $IMAGE
+  artifacts:
+    expire_in: 1d
+    paths:
+      - data/
+  except:
+    variables:
+      - $CONTAINER_SCANNING_DISABLED
+
+
 
 deploy:
   stage: deploy
