@@ -3,6 +3,7 @@
 
 ## pre-reqs
 ```
+#MAC or LINUX
 #RAM: about 8GB free
 #DISK: about 20GB free
 #download helm3
