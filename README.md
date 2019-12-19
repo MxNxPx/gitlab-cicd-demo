@@ -90,9 +90,9 @@ GITRUNREG=$(sh get-runner-reg.sh) && echo $GITRUNREG
 
 ## if step above didn't work - MANUALLY get & set runner registration token - open browser, using root & ${GITROOTPWD}
 ```
-open ${GITURL}/admin/runners
+open ${GITURL}/admin/runners &
 #on linux
-#google-chrome ${GITURL}/admin/runners
+#google-chrome ${GITURL}/admin/runners &
 ## set variable using the copied registration token
 read -p "Paste registration token: " GITRUNREG
 ```
