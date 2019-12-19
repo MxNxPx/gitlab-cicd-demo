@@ -152,8 +152,23 @@ MINIKUBE_USER_TOKEN=$(kubectl get secret $KUBE_DEPLOY_SECRET_NAME -o jsonpath='{
 MINIKUBE_CA=$(kubectl config view -o jsonpath="{.clusters[?(@.name=='$CLUSTER_NAME')].cluster.certificate-authority}") && cat $MINIKUBE_CA
 ```
 
+## CREATE GITLAB-CICD-DEMO PROJECT
+```
+open ${GITURL}/admin/runners &
+#on linux
+#google-chrome ${GITURL} &
+#Under Create New Project > Import Project > Repo by URL
+#Paste this repo URL: https://github.com/MxNxPx/gitlab-cicd-demo.git
+#Project name: gitlab-cicd-demo
+#Project slug: gitlab-cicd-demo
+#Visibility level: Public
+```
+
 ## USING VALUES FROM ABOVE, CREATE GITLAB CICD variables
 ```
+open ${GITURL}/admin/runners &
+#on linux
+#google-chrome ${GITURL} &
 #Under Project Settings > CICD > Variables
 MINIKUBE_APISERVER
 MINIKUBE_USER_TOKEN
