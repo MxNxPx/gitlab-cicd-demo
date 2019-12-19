@@ -45,7 +45,7 @@ helm upgrade --install gitlab gitlab/gitlab \
    -f https://gitlab.com/gitlab-org/charts/gitlab/raw/master/examples/values-minikube.yaml
 ```
 
-## make sure it all is running & ready (may take ~10 mins)
+## in another terminal window, make sure it all is running & ready (may take ~10 mins)
 ```
 watch kubectl get po -n gitlab
 #ctrl+c to exit
