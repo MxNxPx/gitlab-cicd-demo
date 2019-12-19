@@ -42,7 +42,7 @@ helm upgrade --install gitlab gitlab/gitlab \
    --timeout 600s \
    --set global.hosts.domain=$(minikube ip).nip.io \
    --set global.hosts.externalIP=$(minikube ip) \
-   -f https://gitlab.com/gitlab-org/charts/gitlab/raw/master/examples/values-minikube.yaml
+   -f https://gitlab.com/gitlab-org/charts/gitlab/blob/master/examples/values-minikube-minimum.yaml
 ```
 
 ## in another terminal window, make sure it all is running & ready (may take ~10 mins)
