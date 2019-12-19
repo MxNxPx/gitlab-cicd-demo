@@ -65,7 +65,7 @@ sudo systemctl start docker
 sudo minikube start --vm-driver=none --kubernetes-version v1.15.3
 ```
 
-## make sure it all restarts healthy
+## again in another terminal window, make sure it all restarts healthy
 ```
 watch kubectl get po --all-namespaces
 #ctrl+c to exit
