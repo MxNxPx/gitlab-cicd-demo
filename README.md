@@ -175,4 +175,6 @@ helm delete -n gitlab gitlab
 sudo minikube delete
 docker rm --force gitlab-runner
 sudo rm -rfv /srv/gitlab-runner/config/*
+#BEWARE! this one will wipe any and all docker containers and data
+docker system prune -a
 ```
