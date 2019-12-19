@@ -2,13 +2,14 @@
 gitlab cicd demo
 
 ## pre-reqs
+```
 #download helm3
 #download kubectl
 #download minikube
 #download docker desktop
 #download perl
 https://docs.gitlab.com/ee/administration/troubleshooting/kubernetes_cheat_sheet.html#installation-of-minimal-gitlab-config-via-minukube-on-macos
-
+```
 
 ## clone this repo & cd into it
 ```
