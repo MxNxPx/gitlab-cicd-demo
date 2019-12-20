@@ -212,12 +212,24 @@ watch kubectl get po -n gitlab
 #Before the deploy step runs, pop over to the terminal with the "watch" command running to see it deploy
 ```
 
-### verify the deploy worked
+### see your hello world page
 ```
 HELLO_URL=$(echo "http://$(sudo minikube ip):30800")
 open ${HELLO_URL} &
 #on linux
 #google-chrome ${HELLO_URL} &
+```
+
+### change something and watch pipeline run again!
+```
+#Under gitlab-cicd-demo project (left nav) > Repository > Files
+#Click the Dockerfile file
+#Click Edit
+#Change the base image from
+#"FROM python:3.6-alpine"
+#to
+#"FROM python:3.4.3"
+#Scroll to bottom and click "Commit Changes"
 ```
 
 
@@ -226,6 +238,11 @@ open ${HELLO_URL} &
 
 ### Useful links
 https://docs.gitlab.com/ee/administration/troubleshooting/kubernetes_cheat_sheet.html#installation-of-minimal-gitlab-config-via-minukube-on-macos
+https://docs.gitlab.com/ee/ci/introduction/
+https://github.com/gitlabhq/gitlabhq/blob/master/doc/ci/quick_start/README.md
+https://sanderknape.com/2019/02/automated-deployments-kubernetes-gitlab/
+https://nvie.com/posts/a-successful-git-branching-model/
+
 
 
 ### ALL DONE?? cleanup steps
