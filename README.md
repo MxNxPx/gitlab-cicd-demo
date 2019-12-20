@@ -214,9 +214,10 @@ watch kubectl get po -n gitlab
 
 ### verify the deploy worked
 ```
-open $(sudo minikube ip):8080 &
+HELLO_URL=$(echo "http://$(sudo minikube ip):30800")
+open ${HELLO_URL} &
 #on linux
-#google-chrome $(sudo minikube ip):8080 &
+#google-chrome ${HELLO_URL} &
 ```
 
 
