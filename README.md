@@ -121,11 +121,6 @@ sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keyc
 #linux
 #sudo cp -pv ${GITLABREGISTRY}.crt /usr/local/share/ca-certificates/minikube/
 #sudo update-ca-certificates
-sudo minikube stop
-sudo systemctl stop docker
-docker ps 
-sudo systemctl start docker
-sudo minikube start --vm-driver=none --kubernetes-version v1.15.3
 ```
 
 ### stop minikube and docker
