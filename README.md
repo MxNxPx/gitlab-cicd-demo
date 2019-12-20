@@ -10,11 +10,14 @@ do not do this in a Production environment, this is for demo only!
 #RAM: about 8GB free
 #DISK: about 20GB free
 #INTERNET ACCESS
-#download helm3
-#download kubectl
-#download minikube
-#download docker desktop
-#download perl
+#install latest version of these tools
+# - helm3
+# - kubectl
+# - minikube
+# - docker desktop
+# - curl
+# - perl
+# - jq
 ```
 
 ### clone this repo & cd into it
