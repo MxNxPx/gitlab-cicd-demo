@@ -56,6 +56,7 @@ do not do this in a Production environment, this is for demo only!
 # - curl
 # - perl
 # - jq
+#handy browser addon to copy code blocks: https://github.com/zenorocha/codecopy
 ```
 
 ### clone this repo and cd into it
