@@ -2,6 +2,43 @@
 do not do this in a Production environment, this is for demo only!
 
 
+- [gitlab-cicd-demo](#gitlab-cicd-demo)
+  * [PRE-REQS](#pre-reqs)
+    + [install locally](#install-locally)
+    + [clone this repo & cd into it](#clone-this-repo---cd-into-it)
+    + [setup minikube](#setup-minikube)
+  * [DEPLOY GITHUB](#deploy-github)
+    + [setup namespace for gitlab in minikube](#setup-namespace-for-gitlab-in-minikube)
+    + [add helm repo for gitlab](#add-helm-repo-for-gitlab)
+    + [using helm, install gitlab to minikube](#using-helm--install-gitlab-to-minikube)
+    + [in another terminal window, make sure it all is running & ready (may take ~10 mins)](#in-another-terminal-window--make-sure-it-all-is-running---ready--may-take--10-mins-)
+  * [MINIKUBE / GITLAB CONFIG](#minikube---gitlab-config)
+    + [trust gitlab registry certs for docker/minikube && restart](#trust-gitlab-registry-certs-for-docker-minikube----restart)
+    + [again in another terminal window, make sure it all restarts healthy](#again-in-another-terminal-window--make-sure-it-all-restarts-healthy)
+    + [get runner registration token](#get-runner-registration-token)
+    + [launch gitlab runner as local docker container](#launch-gitlab-runner-as-local-docker-container)
+    + [create certs dir under docker volume & pull down gitlab ca cert from k8s into certs dir for docker container](#create-certs-dir-under-docker-volume---pull-down-gitlab-ca-cert-from-k8s-into-certs-dir-for-docker-container)
+    + [register the docker gitlab runner](#register-the-docker-gitlab-runner)
+    + [restart the docker gitlab runner to make it active with the updated registered config](#restart-the-docker-gitlab-runner-to-make-it-active-with-the-updated-registered-config)
+  * [SETUP MINIKUBE INTEGRATION](#setup-minikube-integration)
+    + [get & set vars for gitlab url & root password for UI](#get---set-vars-for-gitlab-url---root-password-for-ui)
+      - [NOTE: store the output as you will need it for the UI steps below](#note--store-the-output-as-you-will-need-it-for-the-ui-steps-below)
+    + [create service account and grab cicd values needed for deploy step](#create-service-account-and-grab-cicd-values-needed-for-deploy-step)
+      - [NOTE: store the output as you will need it for the UI steps below](#note--store-the-output-as-you-will-need-it-for-the-ui-steps-below-1)
+  * [GITLAB UI SETUP](#gitlab-ui-setup)
+    + [login to UI (using root/$GITROOTPWD) create gitlab-cicd-demo project](#login-to-ui--using-root--gitrootpwd--create-gitlab-cicd-demo-project)
+    + [using values from above, create gitlab cicd variables needed for deploy](#using-values-from-above--create-gitlab-cicd-variables-needed-for-deploy)
+  * [KICK OFF A PIPELINE](#kick-off-a-pipeline)
+    + [setup terminal window to watch kubernetes for deployment](#setup-terminal-window-to-watch-kubernetes-for-deployment)
+    + [edit a project file](#edit-a-project-file)
+    + [watch the pipeline run!](#watch-the-pipeline-run-)
+    + [see your hello world page](#see-your-hello-world-page)
+    + [change something and watch pipeline run again!](#change-something-and-watch-pipeline-run-again-)
+  * [ADDITIONAL INFO](#additional-info)
+    + [Useful links](#useful-links)
+    + [ALL DONE?? cleanup steps](#all-done---cleanup-steps)
+
+
 ## PRE-REQS
 
 ### install locally
