@@ -13,7 +13,7 @@ do not do this in a Production environment, this is for demo only!
     + [add helm repo for gitlab](#add-helm-repo-for-gitlab)
     + [using helm - install gitlab to minikube](#using-helm---install-gitlab-to-minikube)
     + [in another terminal window - make sure it all is running and ready](#in-another-terminal-window---make-sure-it-all-is-running-and-ready)
-  * [MINIKUBE / GITLAB CONFIG](#minikube---gitlab-config)
+  * [MINIKUBE AND GITLAB CONFIG](#minikube-and-gitlab-config)
     + [trust gitlab registry certs for docker and minikube](#trust-gitlab-registry-certs-for-docker-and-minikube)
     + [stop minikube and docker](#stop-minikube-and-docker)
     + [start docker and minikube](#start-docker-and-minikube)
@@ -109,7 +109,7 @@ watch kubectl get po -n gitlab
 ```
 
 
-## MINIKUBE / GITLAB CONFIG
+## MINIKUBE AND GITLAB CONFIG
 
 ### trust gitlab registry certs for docker and minikube
 ```
