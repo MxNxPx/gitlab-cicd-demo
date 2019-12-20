@@ -28,7 +28,8 @@ lint_dockerfile:
   stage: lint
 #  allow_failure: true
   script:
-  - dockerfile_lint -f $CI_PROJECT_DIR/Dockerfile
+  - dockerfile_lint --export-rules
+  - dockerfile_lint -v -f $CI_PROJECT_DIR/Dockerfile
 
 
 
@@ -69,13 +70,13 @@ container_scanning:
 
 
 
-deploy:
+deploy_dev:
   stage: deploy
   environment:
-    name: Dev
+    name: dev
   image: dtzar/helm-kubectl:latest
   script:
-    - kubectl config set-cluster minikube --server="$MINIKUBE_SERVER" --certificate-authority="$MINIKUBE_CA"
+    - kubectl config set-cluster minikube --server="$MINIKUBE_APISERVER" --certificate-authority="$MINIKUBE_CA"
     - kubectl config set-credentials "${MINIKUBE_USER}" --token="$MINIKUBE_USER_TOKEN"
     - kubectl config set-context minikube --cluster=minikube --user="${MINIKUBE_USER}"
     - kubectl config use-context minikube
