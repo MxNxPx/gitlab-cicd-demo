@@ -241,10 +241,11 @@ open ${GITURL} &
 
 ### using values from above - create gitlab cicd variables needed for deploy
 ```
-#Under Project (gitlab-cicd-demo) > Settings > CICD > Variables
+#Under Project (gitlab-cicd-demo) > Settings > CICD > Variables > Expand
 #Variable: MINIKUBE_APISERVER $MINIKUBE_APISERVER
 #Variable: MINIKUBE_USER_TOKEN $MINIKUBE_USER_TOKEN
 #File: MINIKUBE_CA $MINIKUBE_CA
+#Click "Save variables"
 ```
 
 
