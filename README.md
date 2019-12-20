@@ -107,7 +107,7 @@ watch kubectl get po -n gitlab
 
 ## MINIKUBE / GITLAB CONFIG
 
-### trust gitlab registry certs for docker and minikube then restart
+### trust gitlab registry certs for docker and minikube
 ```
 GITLABREGISTRY=$(k get -n gitlab ing gitlab-registry -o jsonpath="{.spec.rules[0].host}" && echo) && echo $GITLABREGISTRY
 echo -n | openssl s_client -connect ${GITLABREGISTRY}:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > ${GITLABREGISTRY}.crt
@@ -121,6 +121,23 @@ sudo minikube stop
 sudo systemctl stop docker
 docker ps 
 sudo systemctl start docker
+sudo minikube start --vm-driver=none --kubernetes-version v1.15.3
+```
+
+### stop minikube and docker
+```
+sudo minikube stop
+#mac - restart docker desktop
+#linux stop docker
+#sudo systemctl stop docker
+docker ps 
+#should not see any docker containers and likely get a docker error which is desired
+```
+
+### start docker and minikube
+```
+#linux start docker
+#sudo systemctl start docker
 sudo minikube start --vm-driver=none --kubernetes-version v1.15.3
 ```
 
