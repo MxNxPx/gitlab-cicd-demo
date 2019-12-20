@@ -29,7 +29,7 @@ do not do this in a Production environment, this is for demo only!
     + [create service account and grab cicd values needed for deploy step](#create-service-account-and-grab-cicd-values-needed-for-deploy-step)
       - [NOTE: store the output as you will need it for the UI steps below](#note--store-the-output-as-you-will-need-it-for-the-ui-steps-below-1)
   * [GITLAB UI SETUP](#gitlab-ui-setup)
-    + [login to UI using root and $GITROOTPWD create gitlab-cicd-demo project](#login-to-ui-using-root-and--gitrootpwd-create-gitlab-cicd-demo-project)
+    + [login to UI using root and GITROOTPWD create gitlab-cicd-demo project](#login-to-ui-using-root-and-gitrootpwd-create-gitlab-cicd-demo-project)
     + [using values from above - create gitlab cicd variables needed for deploy](#using-values-from-above---create-gitlab-cicd-variables-needed-for-deploy)
   * [KICK OFF A PIPELINE](#kick-off-a-pipeline)
     + [setup terminal window to watch kubernetes for deployment](#setup-terminal-window-to-watch-kubernetes-for-deployment)
@@ -225,7 +225,7 @@ MINIKUBE_CA=$(kubectl config view -o jsonpath="{.clusters[?(@.name=='$CLUSTER_NA
 
 ## GITLAB UI SETUP
 
-### login to UI using root and $GITROOTPWD create gitlab-cicd-demo project
+### login to UI using root and GITROOTPWD create gitlab-cicd-demo project
 ```
 open ${GITURL} &
 #on linux
@@ -241,7 +241,7 @@ open ${GITURL} &
 
 ### using values from above - create gitlab cicd variables needed for deploy
 ```
-#Under Project Settings > CICD > Variables
+#Under Project (gitlab-cicd-demo) > Settings > CICD > Variables
 #Variable: MINIKUBE_APISERVER $MINIKUBE_APISERVER
 #Variable: MINIKUBE_USER_TOKEN $MINIKUBE_USER_TOKEN
 #File: MINIKUBE_CA $MINIKUBE_CA
