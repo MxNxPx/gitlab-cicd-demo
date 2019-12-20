@@ -7,7 +7,7 @@ do not do this in a Production environment, this is for demo only!
     + [install locally](#install-locally)
     + [clone this repo and cd into it](#clone-this-repo-and-cd-into-it)
     + [setup minikube](#setup-minikube)
-  * [DEPLOY GITHUB](#deploy-github)
+  * [DEPLOY GITLAB](#deploy-gitlab)
     + [setup namespace for gitlab in minikube](#setup-namespace-for-gitlab-in-minikube)
     + [add helm repo for gitlab](#add-helm-repo-for-gitlab)
     + [using helm - install gitlab to minikube](#using-helm---install-gitlab-to-minikube)
@@ -72,7 +72,7 @@ sudo chown -R $USER:$USER ~/.minikube/
 ```
 
 
-## DEPLOY GITHUB
+## DEPLOY GITLAB
 
 ### setup namespace for gitlab in minikube
 ```
