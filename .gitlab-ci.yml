@@ -16,9 +16,19 @@ services:
       - "-insecure-tls"
       
 stages:
+  - lint
   - build
   - test
   - deploy
+
+
+
+lint_dockerfile:
+  image: projectatomic/dockerfile-lint
+  stage: lint
+#  allow_failure: true
+  script:
+  - dockerfile_lint -f $CI_PROJECT_DIR/Dockerfile
 
 
 
