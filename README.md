@@ -171,6 +171,7 @@ gitlab/gitlab-runner:latest
 sudo mkdir /srv/gitlab-runner/config/certs && \
 kubectl get secrets/gitlab-wildcard-tls-ca -n gitlab -o "jsonpath={.data['cfssl_ca']}" | base64 --decode > /tmp/ca.crt && \
 sudo mv /tmp/ca.crt /srv/gitlab-runner/config/certs
+GITURL=$(echo -n "https://" ; kubectl -n gitlab get ingress gitlab-unicorn -ojsonpath='{.spec.rules[0].host}' ; echo) && echo $GITURL
 ```
 
 ### register the docker gitlab runner
