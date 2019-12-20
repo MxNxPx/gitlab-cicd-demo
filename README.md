@@ -140,15 +140,15 @@ docker restart gitlab-runner
 
 
 ### get & set vars for gitlab url & root password for UI
-### store the output as you will need it for the UI steps below
+#### NOTE: store the output as you will need it for the UI steps below
 ```
 GITUSER="root"
 GITURL=$(echo -n "https://" ; kubectl -n gitlab get ingress gitlab-unicorn -ojsonpath='{.spec.rules[0].host}' ; echo) && echo $GITURL
 GITROOTPWD=$(kubectl -n gitlab get secret gitlab-gitlab-initial-root-password -ojsonpath='{.data.password}' | base64 --decode ; echo) && echo $GITROOTPWD
 ```
 
-## create service accont and grab cicd values needed for deploy step
-### store the output as you will need it for the UI steps below
+### create service account and grab cicd values needed for deploy step
+#### NOTE: store the output as you will need it for the UI steps below
 ```
 ## create gitlabcicd service account
 kubectl create sa gitlabcicd
