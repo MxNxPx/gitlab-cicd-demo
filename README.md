@@ -5,38 +5,39 @@ do not do this in a Production environment, this is for demo only!
 - [gitlab-cicd-demo](#gitlab-cicd-demo)
   * [PRE-REQS](#pre-reqs)
     + [install locally](#install-locally)
-    + [clone this repo & cd into it](#clone-this-repo---cd-into-it)
+    + [clone this repo and cd into it](#clone-this-repo-and-cd-into-it)
     + [setup minikube](#setup-minikube)
   * [DEPLOY GITHUB](#deploy-github)
     + [setup namespace for gitlab in minikube](#setup-namespace-for-gitlab-in-minikube)
     + [add helm repo for gitlab](#add-helm-repo-for-gitlab)
-    + [using helm, install gitlab to minikube](#using-helm--install-gitlab-to-minikube)
-    + [in another terminal window, make sure it all is running & ready (may take ~10 mins)](#in-another-terminal-window--make-sure-it-all-is-running---ready--may-take--10-mins-)
+    + [using helm - install gitlab to minikube](#using-helm---install-gitlab-to-minikube)
+    + [in another terminal window - make sure it all is running and ready](#in-another-terminal-window---make-sure-it-all-is-running-and-ready)
   * [MINIKUBE / GITLAB CONFIG](#minikube---gitlab-config)
-    + [trust gitlab registry certs for docker/minikube && restart](#trust-gitlab-registry-certs-for-docker-minikube----restart)
-    + [again in another terminal window, make sure it all restarts healthy](#again-in-another-terminal-window--make-sure-it-all-restarts-healthy)
+    + [trust gitlab registry certs for docker and minikube then restart](#trust-gitlab-registry-certs-for-docker-and-minikube-then-restart)
+    + [again in another terminal window - make sure it all restarts healthy](#again-in-another-terminal-window---make-sure-it-all-restarts-healthy)
     + [get runner registration token](#get-runner-registration-token)
     + [launch gitlab runner as local docker container](#launch-gitlab-runner-as-local-docker-container)
-    + [create certs dir under docker volume & pull down gitlab ca cert from k8s into certs dir for docker container](#create-certs-dir-under-docker-volume---pull-down-gitlab-ca-cert-from-k8s-into-certs-dir-for-docker-container)
+    + [create certs dir under docker volume and pull down gitlab ca cert from k8s into certs dir for docker container](#create-certs-dir-under-docker-volume-and-pull-down-gitlab-ca-cert-from-k8s-into-certs-dir-for-docker-container)
     + [register the docker gitlab runner](#register-the-docker-gitlab-runner)
     + [restart the docker gitlab runner to make it active with the updated registered config](#restart-the-docker-gitlab-runner-to-make-it-active-with-the-updated-registered-config)
   * [SETUP MINIKUBE INTEGRATION](#setup-minikube-integration)
-    + [get & set vars for gitlab url & root password for UI](#get---set-vars-for-gitlab-url---root-password-for-ui)
+    + [get and set vars for gitlab url - user root and root password for UI](#get-and-set-vars-for-gitlab-url---user-root-and-root-password-for-ui)
       - [NOTE: store the output as you will need it for the UI steps below](#note--store-the-output-as-you-will-need-it-for-the-ui-steps-below)
     + [create service account and grab cicd values needed for deploy step](#create-service-account-and-grab-cicd-values-needed-for-deploy-step)
       - [NOTE: store the output as you will need it for the UI steps below](#note--store-the-output-as-you-will-need-it-for-the-ui-steps-below-1)
   * [GITLAB UI SETUP](#gitlab-ui-setup)
-    + [login to UI (using root/$GITROOTPWD) create gitlab-cicd-demo project](#login-to-ui--using-root--gitrootpwd--create-gitlab-cicd-demo-project)
-    + [using values from above, create gitlab cicd variables needed for deploy](#using-values-from-above--create-gitlab-cicd-variables-needed-for-deploy)
+    + [login to UI using root and $GITROOTPWD create gitlab-cicd-demo project](#login-to-ui-using-root-and--gitrootpwd-create-gitlab-cicd-demo-project)
+    + [using values from above - create gitlab cicd variables needed for deploy](#using-values-from-above---create-gitlab-cicd-variables-needed-for-deploy)
   * [KICK OFF A PIPELINE](#kick-off-a-pipeline)
     + [setup terminal window to watch kubernetes for deployment](#setup-terminal-window-to-watch-kubernetes-for-deployment)
     + [edit a project file](#edit-a-project-file)
-    + [watch the pipeline run!](#watch-the-pipeline-run-)
+    + [watch the pipeline run](#watch-the-pipeline-run)
     + [see your hello world page](#see-your-hello-world-page)
-    + [change something and watch pipeline run again!](#change-something-and-watch-pipeline-run-again-)
+    + [change something and watch pipeline run again](#change-something-and-watch-pipeline-run-again)
   * [ADDITIONAL INFO](#additional-info)
     + [Useful links](#useful-links)
-    + [ALL DONE?? cleanup steps](#all-done---cleanup-steps)
+    + [ALL DONE - cleanup steps](#all-done---cleanup-steps)
+
 
 
 ## PRE-REQS
@@ -57,7 +58,7 @@ do not do this in a Production environment, this is for demo only!
 # - jq
 ```
 
-### clone this repo & cd into it
+### clone this repo and cd into it
 ```
 git clone https://github.com/MxNxPx/gitlab-cicd-demo gitlab-cicd-demo && cd $_
 ```
@@ -85,7 +86,7 @@ helm repo add gitlab https://charts.gitlab.io/
 #tar -zxvf gitlab-*.tgz
 ```
 
-### using helm, install gitlab to minikube
+### using helm - install gitlab to minikube
 ```
 MINI_IP=$(sudo minikube ip)
 helm upgrade --install gitlab gitlab/gitlab \
@@ -96,7 +97,7 @@ helm upgrade --install gitlab gitlab/gitlab \
    -f https://gitlab.com/gitlab-org/charts/gitlab/raw/master/examples/values-minikube-minimum.yaml
 ```
 
-### in another terminal window, make sure it all is running & ready (may take ~10 mins)
+### in another terminal window - make sure it all is running and ready
 ```
 watch kubectl get po -n gitlab
 #ctrl+c to exit
@@ -105,7 +106,7 @@ watch kubectl get po -n gitlab
 
 ## MINIKUBE / GITLAB CONFIG
 
-### trust gitlab registry certs for docker/minikube && restart
+### trust gitlab registry certs for docker and minikube then restart
 ```
 GITLABREGISTRY=$(k get -n gitlab ing gitlab-registry -o jsonpath="{.spec.rules[0].host}" && echo) && echo $GITLABREGISTRY
 echo -n | openssl s_client -connect ${GITLABREGISTRY}:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > ${GITLABREGISTRY}.crt
@@ -122,7 +123,7 @@ sudo systemctl start docker
 sudo minikube start --vm-driver=none --kubernetes-version v1.15.3
 ```
 
-### again in another terminal window, make sure it all restarts healthy
+### again in another terminal window - make sure it all restarts healthy
 ```
 watch kubectl get po --all-namespaces
 #ctrl+c to exit
@@ -148,7 +149,7 @@ docker run \
 gitlab/gitlab-runner:latest
 ```
 
-### create certs dir under docker volume & pull down gitlab ca cert from k8s into certs dir for docker container
+### create certs dir under docker volume and pull down gitlab ca cert from k8s into certs dir for docker container
 ```
 sudo mkdir /srv/gitlab-runner/config/certs && \
 kubectl get secrets/gitlab-wildcard-tls-ca -n gitlab -o "jsonpath={.data['cfssl_ca']}" | base64 --decode > /tmp/ca.crt && \
@@ -182,7 +183,7 @@ docker restart gitlab-runner
 ## SETUP MINIKUBE INTEGRATION
 
 
-### get & set vars for gitlab url & root password for UI
+### get and set vars for gitlab url - user root and root password for UI
 #### NOTE: store the output as you will need it for the UI steps below
 ```
 GITUSER="root"
@@ -206,7 +207,7 @@ MINIKUBE_CA=$(kubectl config view -o jsonpath="{.clusters[?(@.name=='$CLUSTER_NA
 
 ## GITLAB UI SETUP
 
-### login to UI (using root/$GITROOTPWD) create gitlab-cicd-demo project
+### login to UI using root and $GITROOTPWD create gitlab-cicd-demo project
 ```
 open ${GITURL} &
 #on linux
@@ -219,7 +220,7 @@ open ${GITURL} &
 #Visibility level: Public
 ```
 
-### using values from above, create gitlab cicd variables needed for deploy
+### using values from above - create gitlab cicd variables needed for deploy
 ```
 #Under Project Settings > CICD > Variables
 #Variable: MINIKUBE_APISERVER $MINIKUBE_APISERVER
@@ -247,7 +248,7 @@ watch kubectl get po -n default
 #Scroll to bottom and click "Commit Changes"
 ```
 
-### watch the pipeline run!
+### watch the pipeline run
 ```
 #In the pipeline tab an entry should appear in running state
 #Click into that and see all the steps it plans to run
@@ -263,7 +264,7 @@ open ${HELLO_URL} &
 #google-chrome ${HELLO_URL} &
 ```
 
-### change something and watch pipeline run again!
+### change something and watch pipeline run again
 ```
 #Under gitlab-cicd-demo project (left nav) > Repository > Files
 #Click the Dockerfile file
@@ -288,7 +289,7 @@ https://nvie.com/posts/a-successful-git-branching-model/
 
 
 
-### ALL DONE?? cleanup steps
+### ALL DONE - cleanup steps
 ```
 helm delete -n gitlab gitlab
 sudo minikube delete
