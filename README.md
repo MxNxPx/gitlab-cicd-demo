@@ -236,6 +236,7 @@ open ${GITURL} &
 #Project name: gitlab-cicd-demo
 #Project slug: gitlab-cicd-demo
 #Visibility level: Public
+#Click "Create project"
 ```
 
 ### using values from above - create gitlab cicd variables needed for deploy
