@@ -1,37 +1,27 @@
-# Use the official Golang image to create a build artifact.
-# This is based on Debian and sets the GOPATH to /go.
-# https://hub.docker.com/_/golang
-FROM golang:1.13 as builder
+# inherit from this "empty base image", see https://hub.docker.com/_/python/
+FROM python:3.6-alpine
+#FROM python:3.4.3
 
-# Labels
-LABEL name="go-hello-world"
+# take some responsibility for this container
+#MAINTAINER Aarno Aukia <aarno.aukia@vshn.ch>
+LABEL name="flask-hello-world"
 LABEL version="1.0"
 
-# Create and change to the app directory.
-WORKDIR /app
+# directory to install the app inside the container
+WORKDIR /usr/src/app
 
-# Retrieve application dependencies using go modules.
-# Allows container builds to reuse downloaded dependencies.
-COPY go.* ./
-RUN go mod download
+# install python dependencies, this will be cached if the requirements.txt file does not change
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy local code to the container image.
-COPY . ./
+# copy application source code into container
+COPY app.py .
 
-# Build the binary.
-RUN CGO_ENABLED=0 GOOS=linux go build -v -o server
+# drop root privileges when running the application
+USER 1001
 
-# Use the official Alpine image for a lean production container.
-# https://hub.docker.com/_/alpine
-# https://docs.docker.com/develop/develop-images/multistage-build/#use-multi-stage-builds
-FROM alpine:3
-RUN apk add --no-cache ca-certificates
-
-# Copy the binary to the production image from the builder stage.
-COPY --from=builder /app/server /server
-
-# Run the web service on container startup.
-CMD ["/server"]
+# run this command at run-time
+CMD [ "python", "app.py" ]
 
 # expose this TCP-port
 EXPOSE 8080
