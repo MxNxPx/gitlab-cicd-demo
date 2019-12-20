@@ -296,5 +296,5 @@ sudo minikube delete
 docker rm --force gitlab-runner
 sudo rm -rfv /srv/gitlab-runner/config/*
 #BEWARE! command below will wipe ALL local docker containers and data
-docker system prune -a
+#docker system prune -a
 ```
