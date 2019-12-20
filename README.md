@@ -195,7 +195,7 @@ open ${GITURL} &
 
 ### setup terminal window to watch kubernetes for deployment
 ```
-watch kubectl get po -n gitlab
+watch kubectl get po -n default
 #ctrl+c to exit
 ```
 
