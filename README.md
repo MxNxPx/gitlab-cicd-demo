@@ -2,6 +2,7 @@
 do not do this in a Production environment, this is for demo only!
 
 
+## Table of Contents
 - [gitlab-cicd-demo](#gitlab-cicd-demo)
   * [PRE-REQS](#pre-reqs)
     + [install locally](#install-locally)
@@ -13,7 +14,9 @@ do not do this in a Production environment, this is for demo only!
     + [using helm - install gitlab to minikube](#using-helm---install-gitlab-to-minikube)
     + [in another terminal window - make sure it all is running and ready](#in-another-terminal-window---make-sure-it-all-is-running-and-ready)
   * [MINIKUBE / GITLAB CONFIG](#minikube---gitlab-config)
-    + [trust gitlab registry certs for docker and minikube then restart](#trust-gitlab-registry-certs-for-docker-and-minikube-then-restart)
+    + [trust gitlab registry certs for docker and minikube](#trust-gitlab-registry-certs-for-docker-and-minikube)
+    + [stop minikube and docker](#stop-minikube-and-docker)
+    + [start docker and minikube](#start-docker-and-minikube)
     + [again in another terminal window - make sure it all restarts healthy](#again-in-another-terminal-window---make-sure-it-all-restarts-healthy)
     + [get runner registration token](#get-runner-registration-token)
     + [launch gitlab runner as local docker container](#launch-gitlab-runner-as-local-docker-container)
@@ -37,6 +40,7 @@ do not do this in a Production environment, this is for demo only!
   * [ADDITIONAL INFO](#additional-info)
     + [Useful links](#useful-links)
     + [ALL DONE - cleanup steps](#all-done---cleanup-steps)
+
 
 
 
