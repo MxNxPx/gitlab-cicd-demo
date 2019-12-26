@@ -48,11 +48,12 @@ do not do this in a Production environment, this is for demo only!
 
 ### install locally
 ```
-#MAC or LINUX
+#UBUNTU (18.04)
 #RAM: about 8GB free
 #DISK: about 20GB free
 #INTERNET ACCESS
 #install latest version of these tools
+# - git
 # - helm3
 # - kubectl
 # - minikube
@@ -116,27 +117,21 @@ watch kubectl get po -n gitlab
 GITLABREGISTRY=$(k get -n gitlab ing gitlab-registry -o jsonpath="{.spec.rules[0].host}" && echo) && echo $GITLABREGISTRY
 echo -n | openssl s_client -connect ${GITLABREGISTRY}:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > ${GITLABREGISTRY}.crt
 sudo mkdir -v /usr/local/share/ca-certificates/minikube/
-#mac
-sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain ${GITLABREGISTRY}.crt
-#linux
-#sudo cp -pv ${GITLABREGISTRY}.crt /usr/local/share/ca-certificates/minikube/
-#sudo update-ca-certificates
+sudo cp -pv ${GITLABREGISTRY}.crt /usr/local/share/ca-certificates/minikube/
+sudo update-ca-certificates
 ```
 
 ### stop minikube and docker
 ```
 sudo minikube stop
-#mac - restart docker desktop
-#linux stop docker
-#sudo systemctl stop docker
+sudo systemctl stop docker
 docker ps 
 #should not see any docker containers and likely get a docker error which is desired
 ```
 
 ### start docker and minikube
 ```
-#linux start docker
-#sudo systemctl start docker
+sudo systemctl start docker
 sudo minikube start --vm-driver=none --kubernetes-version v1.15.3
 ```
 
