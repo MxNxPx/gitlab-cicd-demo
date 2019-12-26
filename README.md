@@ -292,11 +292,11 @@ google-chrome ${HELLO_URL} &
 ## ADDITIONAL INFO
 
 ### Useful links
-https://docs.gitlab.com/ee/administration/troubleshooting/kubernetes_cheat_sheet.html#installation-of-minimal-gitlab-config-via-minukube-on-macos
-https://docs.gitlab.com/ee/ci/introduction/
-https://github.com/gitlabhq/gitlabhq/blob/master/doc/ci/quick_start/README.md
-https://sanderknape.com/2019/02/automated-deployments-kubernetes-gitlab/
-https://nvie.com/posts/a-successful-git-branching-model/
+https://docs.gitlab.com/ee/administration/troubleshooting/kubernetes_cheat_sheet.html#installation-of-minimal-gitlab-config-via-minukube-on-macos  
+https://docs.gitlab.com/ee/ci/introduction/  
+https://github.com/gitlabhq/gitlabhq/blob/master/doc/ci/quick_start/README.md  
+https://sanderknape.com/2019/02/automated-deployments-kubernetes-gitlab/  
+https://nvie.com/posts/a-successful-git-branching-model/  
 
 
 
