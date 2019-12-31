@@ -73,7 +73,7 @@ git clone https://github.com/MxNxPx/gitlab-cicd-demo gitlab-cicd-demo && cd $_
 ```
 sudo minikube start --vm-driver=none --kubernetes-version v1.15.3
 sudo minikube addons enable ingress
-sudo chown -R $USER:$USER ~/.minikube/
+sudo chown -R $USER:$USER ~/.minikube/ ~/.kube/
 ```
 
 
