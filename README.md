@@ -107,6 +107,21 @@ helm upgrade --install gitlab gitlab/gitlab \
 ```
 watch kubectl get po -n gitlab
 #ctrl+c to exit
+
+##when ready it will look similar to this
+#NAME                                       READY   STATUS      RESTARTS   AGE
+#gitlab-gitaly-0                            1/1     Running     0          8m56s
+#gitlab-gitlab-exporter-645f7575b9-zkdwm    1/1     Running     0          8m56s
+#gitlab-gitlab-shell-5885458d85-rmjkz       1/1     Running     0          8m57s
+#gitlab-migrations.1-59b78                  0/1     Completed   1          8m56s
+#gitlab-minio-8f879c754-ttvw7               1/1     Running     0          8m56s
+#gitlab-minio-create-buckets.1-tsjxm        0/1     Completed   0          8m56s
+#gitlab-postgresql-66d8d9574b-f8b4m         2/2     Running     0          8m57s
+#gitlab-redis-7c6f9d8585-jk978              2/2     Running     0          8m56s
+#gitlab-registry-54964ddfdc-zv2dt           1/1     Running     0          8m57s
+#gitlab-sidekiq-all-in-1-6658c9547b-d4xlv   1/1     Running     0          8m56s
+#gitlab-task-runner-7768d75c46-d257t        1/1     Running     0          8m57s
+#gitlab-unicorn-557d575bc9-68tnm            2/2     Running     1          8m56s
 ```
 
 
