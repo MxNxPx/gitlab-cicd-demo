@@ -129,7 +129,7 @@ watch kubectl get po -n gitlab
 
 ### trust gitlab registry certs for docker and minikube
 ```
-GITLABREGISTRY=$(k get -n gitlab ing gitlab-registry -o jsonpath="{.spec.rules[0].host}" && echo) && echo $GITLABREGISTRY
+GITLABREGISTRY=$(kubectl get -n gitlab ing gitlab-registry -o jsonpath="{.spec.rules[0].host}" && echo) && echo $GITLABREGISTRY
 echo -n | openssl s_client -connect ${GITLABREGISTRY}:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > ${GITLABREGISTRY}.crt
 sudo mkdir -v /usr/local/share/ca-certificates/minikube/
 sudo cp -pv ${GITLABREGISTRY}.crt /usr/local/share/ca-certificates/minikube/
