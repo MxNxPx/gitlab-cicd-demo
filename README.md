@@ -237,7 +237,9 @@ MINIKUBE_CA=$(kubectl config view -o jsonpath="{.clusters[?(@.name=='$CLUSTER_NA
 
 ### login to UI using root and GITROOTPWD create gitlab-cicd-demo project
 ```
+echo ${GITURL}
 google-chrome ${GITURL} &
+#if using multipass, copy this URL and put it in your browser
 
 #Under Create New Project > Import Project > Repo by URL
 #Paste this repo URL: https://github.com/MxNxPx/gitlab-cicd-demo.git
@@ -288,6 +290,7 @@ watch kubectl get po -n default
 ```
 HELLO_URL=$(echo "http://$(sudo minikube ip):30800") && echo $HELLO_URL
 google-chrome ${HELLO_URL} &
+#if using multipass, copy this URL and put it in your browser
 ```
 
 ### change something and watch pipeline run again
