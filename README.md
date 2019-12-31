@@ -286,7 +286,7 @@ watch kubectl get po -n default
 
 ### see your hello world page
 ```
-HELLO_URL=$(echo "http://$(sudo minikube ip):30800")
+HELLO_URL=$(echo "http://$(sudo minikube ip):30800") && echo $HELLO_URL
 google-chrome ${HELLO_URL} &
 ```
 
