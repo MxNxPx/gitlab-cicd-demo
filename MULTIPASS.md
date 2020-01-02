@@ -51,4 +51,4 @@ sudo mv minikube-linux-amd64 /usr/local/bin/minikube
 }
 ```
 
-## proceed with the steps in the readme
+## proceed with the steps in the [readme](README.md)
