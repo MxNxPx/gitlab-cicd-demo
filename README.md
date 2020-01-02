@@ -323,6 +323,7 @@ https://nvie.com/posts/a-successful-git-branching-model/
 ### ALL DONE - cleanup steps
 ```
 #if using multipass follow these steps
+multipass list
 multipass delete ubuntu-multipass
 multipass purge
 multipass list  #should only show the primary instance to confirm it wiped properly
