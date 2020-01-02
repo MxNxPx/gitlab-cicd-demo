@@ -46,6 +46,8 @@ do not do this in a Production environment, this is for demo only!
 
 ## PRE-REQS
 
+### highly suggest using [multipass](MULTIPASS.md)
+
 ### install locally
 ```
 #UBUNTU (18.04)
