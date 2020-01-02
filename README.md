@@ -320,6 +320,12 @@ https://nvie.com/posts/a-successful-git-branching-model/
 
 ### ALL DONE - cleanup steps
 ```
+#if using multipass follow these steps
+multipass delete ubuntu-multipass
+multipass purge
+multipass list  #should only show the primary instance to confirm it wiped properly
+
+#if not using multipass follow these steps
 helm delete -n gitlab gitlab
 sudo minikube delete
 docker rm --force gitlab-runner
