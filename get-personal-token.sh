@@ -15,12 +15,12 @@ curl -sS -k -b gitlab-cookies.txt -c gitlab-cookies.txt "${GITURL}/users/sign_in
 	--data-urlencode "authenticity_token=${csrf_token}"  -o /dev/null
 
 # 3. send curl GET request to personal access token page to get auth token
-body_header=$(curl -k -H 'user-agent: curl' -b cookies.txt -i "${GITLABURL}/profile/personal_access_tokens" -sS)
+body_header=$(curl -k -H 'user-agent: curl' -b cookies.txt -i "${GITURL}/profile/personal_access_tokens" -sS)
 csrf_token=$(echo $body_header | perl -ne 'print "$1\n" if /authenticity_token"[[:blank:]]value="(.+?)"/' | sed -n 1p)
 
 # 4. curl POST request to send the "generate personal access token form"
 #      the response will be a redirect, so we have to follow using `-L`
-body_header=$(curl -sS -k -L -b gitlab-cookies.txt "${GITLABURL}/profile/personal_access_tokens" \
+body_header=$(curl -sS -k -L -b gitlab-cookies.txt "${GITURL}/profile/personal_access_tokens" \
 	--data-urlencode "authenticity_token=${csrf_token}" \
 	--data 'personal_access_token[name]=api-token&personal_access_token[expires_at]=&personal_access_token[scopes][]=api')
 
