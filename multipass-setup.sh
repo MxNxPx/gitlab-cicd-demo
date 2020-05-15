@@ -51,4 +51,4 @@ IFS=$OLDIFS
 rm multipass-commands.txt
 
 ## copy files prefaced with "multipass" into the multipass instance
-multipass copy-files multipass* $NAME:
+multipass copy-files get* $NAME:
