@@ -73,9 +73,8 @@ git clone https://github.com/MxNxPx/gitlab-cicd-demo gitlab-cicd-demo && cd $_
 
 ### setup minikube
 ```
-sudo minikube start --vm-driver=none --kubernetes-version v1.15.3
-sudo minikube addons enable ingress
-sudo chown -R $USER:$USER ~/.minikube/ ~/.kube/
+minikube start --vm-driver=docker --kubernetes-version v1.15.3
+minikube addons enable ingress
 ```
 
 
@@ -89,6 +88,7 @@ kubectl create ns gitlab
 ### add helm repo for gitlab
 ```
 helm repo add gitlab https://charts.gitlab.io/
+helm repo update
 ## (optional) gitlab helm package - download to view locally
 #helm fetch gitlab/gitlab
 #tar -zxvf gitlab-*.tgz
@@ -96,7 +96,7 @@ helm repo add gitlab https://charts.gitlab.io/
 
 ### using helm - install gitlab to minikube
 ```
-MINI_IP=$(sudo minikube ip)
+MINI_IP=$(minikube ip)
 helm upgrade --install gitlab gitlab/gitlab \
    --namespace gitlab \
    --timeout 600s \
@@ -140,7 +140,7 @@ sudo update-ca-certificates
 
 ### stop minikube and docker
 ```
-sudo minikube stop
+minikube stop
 sudo systemctl stop docker
 docker ps 
 #should not see any docker containers and likely get a docker error which is desired
@@ -149,7 +149,7 @@ docker ps
 ### start docker and minikube
 ```
 sudo systemctl start docker
-sudo minikube start --vm-driver=none --kubernetes-version v1.15.3
+minikube start --vm-driver=none --kubernetes-version v1.15.3
 ```
 
 ### again in another terminal window - make sure it all restarts healthy
@@ -290,7 +290,7 @@ watch kubectl get po -n default
 
 ### see your hello world page
 ```
-HELLO_URL=$(echo "http://$(sudo minikube ip):30800") && echo $HELLO_URL
+HELLO_URL=$(echo "http://$(minikube ip):30800") && echo $HELLO_URL
 google-chrome ${HELLO_URL} &
 #if using multipass, copy this URL and put it in your browser
 ```
@@ -330,7 +330,7 @@ multipass list  #should only show the primary instance to confirm it wiped prope
 
 #if not using multipass follow these steps
 helm delete -n gitlab gitlab
-sudo minikube delete
+minikube delete
 docker rm --force gitlab-runner
 sudo rm -rfv /srv/gitlab-runner/config/*
 #BEWARE! command below will wipe ALL local docker containers and data
