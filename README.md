@@ -6,7 +6,7 @@ do not do this in a Production environment, this is for demo only!
 - [gitlab-cicd-demo](#gitlab-cicd-demo)
   * [PRE-REQS](#pre-reqs)
     + [install locally](#install-locally)
-    + [clone this repo and cd into it](#clone-this-repo-and-cd-into-it)
+    + [start multipass, shell in, switch to root, clone this repo, and cd into it](#clone-this-repo-and-cd-into-it)
     + [setup minikube](#setup-minikube)
   * [DEPLOY GITLAB](#deploy-gitlab)
     + [setup namespace for gitlab in minikube](#setup-namespace-for-gitlab-in-minikube)
@@ -52,7 +52,7 @@ do not do this in a Production environment, this is for demo only!
 ```
 #UBUNTU (18.04)
 #RAM: about 8GB free
-#DISK: about 20GB free
+#DISK: about 30GB free
 #INTERNET ACCESS
 #install latest version of these tools
 # - git
@@ -66,14 +66,17 @@ do not do this in a Production environment, this is for demo only!
 #handy browser addon to copy code blocks: https://github.com/zenorocha/codecopy
 ```
 
-### clone this repo and cd into it
+### start multipass, shell in, switch to root, clone this repo, and cd into it
 ```
-git clone https://github.com/MxNxPx/gitlab-cicd-demo gitlab-cicd-demo && cd $_
+bash multipass-setup.sh
+multipass shell ubuntu-multipass
+sudo su -
+git clone https://github.com/MxNxPx/gitlab-cicd-demo gitlab-cicd-demo && cd $\_
 ```
 
 ### setup minikube
 ```
-minikube start --vm-driver=docker --kubernetes-version v1.15.3
+minikube start --vm-driver none --cpus=4 --memory=4G --kubernetes-version v1.15.3
 minikube addons enable ingress
 ```
 
@@ -102,7 +105,8 @@ helm upgrade --install gitlab gitlab/gitlab \
    --timeout 600s \
    --set global.hosts.domain=$MINI_IP.nip.io \
    --set global.hosts.externalIP=$MINI_IP \
-   -f https://gitlab.com/gitlab-org/charts/gitlab/raw/master/examples/values-minikube-minimum.yaml
+   --version 2.1.14 \
+   -f values-minikube-minimum.yaml
 ```
 
 ### in another terminal window - make sure it all is running and ready
@@ -133,23 +137,23 @@ watch kubectl get po -n gitlab
 ```
 GITLABREGISTRY=$(kubectl get -n gitlab ing gitlab-registry -o jsonpath="{.spec.rules[0].host}" && echo) && echo $GITLABREGISTRY
 echo -n | openssl s_client -connect ${GITLABREGISTRY}:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' > ${GITLABREGISTRY}.crt
-sudo mkdir -v /usr/local/share/ca-certificates/minikube/
-sudo cp -pv ${GITLABREGISTRY}.crt /usr/local/share/ca-certificates/minikube/
-sudo update-ca-certificates
+mkdir -v /usr/local/share/ca-certificates/minikube/
+cp -pv ${GITLABREGISTRY}.crt /usr/local/share/ca-certificates/minikube/
+update-ca-certificates
 ```
 
 ### stop minikube and docker
 ```
 minikube stop
-sudo systemctl stop docker
+systemctl stop docker
 docker ps 
 #should not see any docker containers and likely get a docker error which is desired
 ```
 
 ### start docker and minikube
 ```
-sudo systemctl start docker
-minikube start --vm-driver=none --kubernetes-version v1.15.3
+systemctl start docker
+minikube start --vm-driver none --cpus=4 --memory=4G --kubernetes-version v1.15.3
 ```
 
 ### again in another terminal window - make sure it all restarts healthy
@@ -175,20 +179,20 @@ docker run \
 -v /srv/gitlab-runner/config:/etc/gitlab-runner \
 -v /var/run/docker.sock:/var/run/docker.sock \
 -v /cache \
-gitlab/gitlab-runner:latest
+gitlab/gitlab-runner:v12.5.0
 ```
 
 ### create certs dir under docker volume and pull down gitlab ca cert from k8s into certs dir for docker container
 ```
-sudo mkdir /srv/gitlab-runner/config/certs && \
+mkdir /srv/gitlab-runner/config/certs && \
 kubectl get secrets/gitlab-wildcard-tls-ca -n gitlab -o "jsonpath={.data['cfssl_ca']}" | base64 --decode > /tmp/ca.crt && \
-sudo mv /tmp/ca.crt /srv/gitlab-runner/config/certs
+mv /tmp/ca.crt /srv/gitlab-runner/config/certs
 GITURL=$(echo -n "https://" ; kubectl -n gitlab get ingress gitlab-unicorn -ojsonpath='{.spec.rules[0].host}' ; echo) && echo $GITURL
 ```
 
 ### register the docker gitlab runner
 ```
-docker run -v /srv/gitlab-runner/config:/etc/gitlab-runner --rm -t -i gitlab/gitlab-runner register \
+docker run -v /srv/gitlab-runner/config:/etc/gitlab-runner --rm -t -i gitlab/gitlab-runner:v12.5.0 register \
 --docker-privileged \
 --non-interactive \
 --executor "docker" \
@@ -332,7 +336,7 @@ multipass list  #should only show the primary instance to confirm it wiped prope
 helm delete -n gitlab gitlab
 minikube delete
 docker rm --force gitlab-runner
-sudo rm -rfv /srv/gitlab-runner/config/*
+rm -rfv /srv/gitlab-runner/config/*
 #BEWARE! command below will wipe ALL local docker containers and data
 #docker system prune -a
 ```

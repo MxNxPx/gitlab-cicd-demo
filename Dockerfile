@@ -1,5 +1,5 @@
 # inherit from this "empty base image", see https://hub.docker.com/_/python/
-FROM python:3.6-alpine
+FROM python:3.8.10-alpine3.13
 #FROM python:3.4.3
 
 # take some responsibility for this container

@@ -2,7 +2,7 @@
 NAME=ubuntu-multipass
 CPU=4
 MEM=8G
-DISK=18G
+DISK=30G
 
 ## unset any proxy env vars
 unset PROXY HTTP_PROXY HTTPS_PROXY http_proxy https_proxy
@@ -23,7 +23,7 @@ sudo touch /etc/apt/sources.list.d/kubernetes.list
 echo "deb http://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee -a /etc/apt/sources.list.d/kubernetes.list
 sudo apt-get update
 sudo apt-get install -y kubectl
-wget https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+wget https://storage.googleapis.com/minikube/releases/v1.7.0/minikube-linux-amd64
 chmod +x minikube-linux-amd64
 sudo mv minikube-linux-amd64 /usr/local/bin/minikube
 EOF

@@ -53,7 +53,7 @@ container_scanning:
   script:
     - apk add --no-cache --update curl wget grep sed git
     - wget -q https://github.com/aquasecurity/trivy/releases/download/v0.3.1/trivy_0.3.1_Linux-64bit.tar.gz
-    - tar zxf trivy_0.3.1_Linux-64bit.tar.gz
+    - tar zxf trivy*.tar.gz
     - mv trivy /usr/local/bin
     - chmod +x /usr/local/bin/trivy
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
